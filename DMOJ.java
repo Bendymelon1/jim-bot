@@ -5,6 +5,8 @@ import javax.net.ssl.HttpsURLConnection;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.Properties;
 
 public class DMOJ {
     public static String getResponse(String request) throws Exception{
@@ -78,5 +80,24 @@ public class DMOJ {
         } catch (Exception ex){
             return new DMOJUser(true, "Error fetching user details.");
         }
+    }
+
+    public static String[] props = {
+            "os.name",
+            "os.version",
+            "os.arch",
+            "java.runtime.name",
+            "java.vm.version",
+            "java.vm.name",
+            "java.runtime.version",
+    };
+
+    public static String getInfo(){
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("jim-bot\n"));
+        for (String pp : props){
+            sb.append(String.format("%s: %s\n", pp, System.getProperty(pp)));
+        }
+        return sb.toString();
     }
 }

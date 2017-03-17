@@ -5,8 +5,9 @@ import sx.blah.discord.handle.obj.IMessage;
 public class ActivityListener {
 
     String[][] options = {
-            { ".dmoj id <id>",          "Queries problem information by ID" },
-            { ".dmoj user <username>",  "Queries user information by username"}
+            { ".info                 ", "Gets system properties of jim-bot" },
+            { ".dmoj id <id>         ", "Queries problem information by ID" },
+            { ".dmoj user <username> ", "Queries user information by username"}
     };
 
     @EventSubscriber
@@ -17,6 +18,9 @@ public class ActivityListener {
         try {
             if (message.getContent().toLowerCase().startsWith(".ping")) {
                 message.getChannel().sendMessage("pong.");
+            } else if (message.getContent().toLowerCase().startsWith(".info")){
+                System.out.println("Getting info.");
+                message.getChannel().sendMessage("```" + DMOJ.getInfo() + "```");
             } else if (message.getContent().toLowerCase().startsWith(".dmoj")){
                 String[] tokens = message.getContent().toLowerCase().split("\\s+");
                 if (tokens.length > 2 && tokens[1].equals("id")) {
@@ -34,6 +38,7 @@ public class ActivityListener {
                     sb.append("```");
                     message.getChannel().sendMessage(sb.toString());
                 }
+
             } else {
                 message.getChannel().sendMessage(String.format("\"%s\" is an invalid command.",
                         message.getContent().substring(1)));
